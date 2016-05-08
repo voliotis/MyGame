@@ -1,4 +1,4 @@
-package com.voliotis.file.controler;
+package com.voliotis.fileutils;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

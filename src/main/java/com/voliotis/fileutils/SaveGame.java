@@ -1,4 +1,4 @@
-package com.voliotis.file.controler;
+package com.voliotis.fileutils;
 
 import com.voliotis.game.Color;
 import com.voliotis.game.Position;

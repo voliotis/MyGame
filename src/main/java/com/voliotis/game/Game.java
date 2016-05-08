@@ -1,6 +1,6 @@
 package com.voliotis.game;
 
-import com.voliotis.file.controler.SaveGame;
+import com.voliotis.fileutils.SaveGame;
 import com.voliotis.findmatches.FindMatches;
 
 import java.util.*;

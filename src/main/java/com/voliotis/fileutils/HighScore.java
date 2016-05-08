@@ -1,4 +1,4 @@
-package com.voliotis.file.controler;
+package com.voliotis.fileutils;
 
 public class HighScore {
     private String name;

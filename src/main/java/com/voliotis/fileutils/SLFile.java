@@ -1,4 +1,4 @@
-package com.voliotis.file.controler;
+package com.voliotis.fileutils;
 
 import com.google.gson.Gson;
 import javafx.stage.Stage;

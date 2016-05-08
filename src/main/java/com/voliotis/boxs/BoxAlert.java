@@ -1,5 +1,8 @@
 package com.voliotis.boxs;
 
+import com.voliotis.fileutils.HighScore;
+import com.voliotis.fileutils.SLFile;
+import com.voliotis.fileutils.SaveHScore;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
 import javafx.scene.*;
@@ -9,7 +12,6 @@ import javafx.stage.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
-import com.voliotis.file.controler.*;
 
 public class BoxAlert{
     private static final Logger LOGGER = Logger.getLogger(SLFile.class.getName());
