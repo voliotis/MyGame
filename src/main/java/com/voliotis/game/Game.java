@@ -1,7 +1,7 @@
 package com.voliotis.game;
 
 import com.voliotis.fileutils.SaveGame;
-import com.voliotis.findmatches.FindMatches;
+import com.voliotis.findmatches.MatchesFinderAlgorithm;
 
 import java.util.*;
 
@@ -27,7 +27,7 @@ public class Game {
     public boolean moveAndCheckGameOver(Position from, Position to){
         Color color = gameField.removeAndGetColorFromPosition(from);
         gameField.addColorToPosition(color, to);
-        FindMatches matches = new FindMatches(to,gameField,NUMBER_OF_BALLS_TO_HAVE_SCORE);
+        MatchesFinderAlgorithm matches = new MatchesFinderAlgorithm(to,gameField,NUMBER_OF_BALLS_TO_HAVE_SCORE);
         gameField = matches.getClearGameFieldFromScore();
         return nextRound();
     }
@@ -107,7 +107,7 @@ public class Game {
     private void addNewBallsToGameField() {
         nextBallsColor.forEach(color -> {
             Position position = gameField.createAndPutColorInRandomPosition(color);
-            FindMatches matches = new FindMatches(position, gameField, NUMBER_OF_BALLS_TO_HAVE_SCORE);
+            MatchesFinderAlgorithm matches = new MatchesFinderAlgorithm(position, gameField, NUMBER_OF_BALLS_TO_HAVE_SCORE);
             gameField = matches.getClearGameFieldFromScore();
         });
     }
