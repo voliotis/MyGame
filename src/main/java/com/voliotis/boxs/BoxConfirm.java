@@ -13,8 +13,7 @@ import com.voliotis.game.Options;
 
 public class BoxConfirm {
     private static Options.YNC answer;
-    private BoxConfirm(){
-    }
+    private BoxConfirm(){}
 
     public static Options.YNC display(String title, String message) {
         Stage window = new Stage();

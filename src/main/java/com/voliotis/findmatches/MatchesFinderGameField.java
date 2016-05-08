@@ -11,34 +11,34 @@ public class MatchesFinderGameField {
     private final Position mainPosition;
     private final int numberOfRowColors;
 
-    private Set<Position> positionsWithColorForRemove;
+    private Set<Position> positionsForRemove;
     private Set<Color> bombColorsForRemove;
 
     public MatchesFinderGameField(Position position, GameField gameField, int numberOfRowColors) {
         this.mainPosition = position;
         this.gameField = gameField;
         this.numberOfRowColors = numberOfRowColors;
-        positionsWithColorForRemove = new HashSet<>();
+        positionsForRemove = new HashSet<>();
         bombColorsForRemove = new HashSet<>();
     }
 
-    public GameField getClearGameFieldFromScore(){
-        accessField(Position.Access.ROW);
-        accessField(Position.Access.COLUMN);
-        accessField(Position.Access.CROSS_A);
-        accessField(Position.Access.CROSS_B);
-        cleanGameFieldFromPositionsWithColorForRemove();
-        if (!positionsWithColorForRemove.isEmpty())
+    public GameField getClearGameFieldFromMatches(){
+        accessGameFieldForMatches(Position.Access.ROW);
+        accessGameFieldForMatches(Position.Access.COLUMN);
+        accessGameFieldForMatches(Position.Access.CROSS_A);
+        accessGameFieldForMatches(Position.Access.CROSS_B);
+        cleanGameFieldFromMatches();
+        if (!positionsForRemove.isEmpty())
             gameField.setHaveScore(true);
         return gameField;
     }
 
-    private void accessField(Position.Access access){
+    private void accessGameFieldForMatches(Position.Access access){
         Set<Position> positionsAccess = new HashSet<>();
         Set<Position> positions = new HashSet<>();
         Set<Color> bombColor = new HashSet<>();
 
-        if(getColor(mainPosition).hasRegularColor())
+        if(gameField.getColorFromPosition(mainPosition).hasRegularColor())
             positions.add(mainPosition);
         else
             positions.addAll(getMainPositionNeighbours(access));
@@ -48,15 +48,15 @@ public class MatchesFinderGameField {
             Position nextPosition = position.getNextPosition(access);
             while (nextPosition != null && isPositionsMeetTheConditions(position,nextPosition)) {
                 positionsAccess.add(nextPosition);
-                if (getColor(nextPosition) == Color.BOMB)
-                    bombColor.add(getColor(position));
+                if (gameField.getColorFromPosition(nextPosition) == Color.BOMB)
+                    bombColor.add(gameField.getColorFromPosition(position));
                 nextPosition = nextPosition.getNextPosition(access);
             }
             nextPosition = position.getPreviousPosition(access);
             while (nextPosition != null && isPositionsMeetTheConditions(position,nextPosition)) {
                 positionsAccess.add(nextPosition);
-                if (getColor(nextPosition) == Color.BOMB)
-                    bombColor.add(getColor(position));
+                if (gameField.getColorFromPosition(nextPosition) == Color.BOMB)
+                    bombColor.add(gameField.getColorFromPosition(position));
                 nextPosition = nextPosition.getPreviousPosition(access);
             }
             setScore(access,positionsAccess,bombColor);
@@ -68,16 +68,16 @@ public class MatchesFinderGameField {
     private Set<Position> getMainPositionNeighbours(Position.Access access){
         Set<Position> neighbours = new HashSet<>();
         Position nextPosition = mainPosition.getNextPosition(access);
-        while(nextPosition != null && !isEmptyPosition(nextPosition)) {
-            if(getColor(nextPosition).hasRegularColor()) {
+        while(nextPosition != null && !gameField.isEmptyPosition(nextPosition)) {
+            if(gameField.getColorFromPosition(nextPosition).hasRegularColor()) {
                 neighbours.add(nextPosition);
                 break;
             }
             nextPosition = nextPosition.getNextPosition(access);
         }
         nextPosition = mainPosition.getPreviousPosition(access);
-        while (nextPosition != null && !isEmptyPosition(nextPosition)){
-            if(getColor(nextPosition).hasRegularColor()) {
+        while (nextPosition != null && !gameField.isEmptyPosition(nextPosition)){
+            if(gameField.getColorFromPosition(nextPosition).hasRegularColor()) {
                 neighbours.add(nextPosition);
                 break;
             }
@@ -88,7 +88,7 @@ public class MatchesFinderGameField {
 
     private void setScore(Position.Access access, Set<Position> positionsAccess, Set<Color> bombColor){
         if (positionsAccess.size() >= numberOfRowColors) {
-            positionsWithColorForRemove.addAll(positionsAccess);
+            positionsForRemove.addAll(positionsAccess);
             bombColorsForRemove.addAll(bombColor);
             if(access == Position.Access.ROW || access == Position.Access.COLUMN)
                 increaseTheScoreStraight(positionsAccess.size());
@@ -97,21 +97,13 @@ public class MatchesFinderGameField {
         }
     }
 
-    private Color getColor(Position p){
-        return gameField.getColorFromPosition(p);
-    }
-
-    private boolean isEmptyPosition(Position p){
-        return gameField.getEmptyPositions().contains(p);
-    }
-
     private boolean isPositionsMeetTheConditions(Position p1, Position p2){
-        return !isEmptyPosition(p2) &&
-                getColor(p1).matches(getColor(p2));
+        return !gameField.isEmptyPosition(p2) &&
+                gameField.getColorFromPosition(p1).matches(gameField.getColorFromPosition(p2));
     }
 
-    private void cleanGameFieldFromPositionsWithColorForRemove(){
-        positionsWithColorForRemove.forEach(gameField::removeAndGetColorFromPosition);
+    private void cleanGameFieldFromMatches(){
+        positionsForRemove.forEach(gameField::removeAndGetColorFromPosition);
         bombColorsForRemove.forEach(gameField::removeColorFormAllPositions);
     }
 

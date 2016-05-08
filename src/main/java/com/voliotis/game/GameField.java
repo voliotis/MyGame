@@ -105,6 +105,10 @@ public class GameField {
         return haveScore;
     }
 
+    public boolean isEmptyPosition(Position p){
+        return getEmptyPositions().contains(p);
+    }
+
     public void setHaveScore(boolean haveScore) {
         this.haveScore = haveScore;
     }

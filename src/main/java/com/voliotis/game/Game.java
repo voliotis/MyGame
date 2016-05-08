@@ -28,7 +28,7 @@ public class Game {
         Color color = gameField.removeAndGetColorFromPosition(from);
         gameField.addColorToPosition(color, to);
         MatchesFinderGameField matches = new MatchesFinderGameField(to,gameField,NUMBER_OF_BALLS_TO_HAVE_SCORE);
-        gameField = matches.getClearGameFieldFromScore();
+        gameField = matches.getClearGameFieldFromMatches();
         return nextRound();
     }
 
@@ -108,7 +108,7 @@ public class Game {
         nextBallsColor.forEach(color -> {
             Position position = gameField.createAndPutColorInRandomPosition(color);
             MatchesFinderGameField matches = new MatchesFinderGameField(position, gameField, NUMBER_OF_BALLS_TO_HAVE_SCORE);
-            gameField = matches.getClearGameFieldFromScore();
+            gameField = matches.getClearGameFieldFromMatches();
         });
     }
 

@@ -6,8 +6,8 @@ import java.io.File;
 import com.voliotis.game.Options;
 
 public class ChooseFile {
-
     private static final FileChooser fileChooser = new FileChooser();
+    private ChooseFile(){}
 
     static {
         String title = "Open Resource File";
@@ -16,9 +16,6 @@ public class ChooseFile {
         fileChooser.setTitle(title);
         fileChooser.getExtensionFilters().add(jsonFilter);
         fileChooser.setInitialDirectory(userDir);
-    }
-
-    private ChooseFile(){
     }
 
     public static File display(Stage window, Options.SOrL saveOrLoad){

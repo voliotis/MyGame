@@ -9,8 +9,7 @@ import com.voliotis.game.Options;
 public class SLFile {
     private static final Logger LOGGER = Logger.getLogger(SLFile.class.getName());
     private static Gson gson = new Gson();
-    private SLFile(){
-    }
+    private SLFile(){}
 
     public static File saveGameToFile(SaveGame settings, File file, Stage stage, Options.SOrSAs saveOrSaveAs){
         File returnFile = file;

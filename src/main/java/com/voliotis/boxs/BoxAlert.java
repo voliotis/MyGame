@@ -15,13 +15,12 @@ import java.util.logging.Logger;
 
 public class BoxAlert{
     private static final Logger LOGGER = Logger.getLogger(SLFile.class.getName());
+    private BoxAlert(){}
     public GridPane mainGridPane;
 
     public static void display(String title, String message) {
         Stage window = new Stage();
-
-        Label label = new Label();
-        label.setText(message);
+        Label label = new Label(message);
         Button closeButton = new Button("Close");
         closeButton.setOnAction(e -> window.close());
 
@@ -31,7 +30,6 @@ public class BoxAlert{
         layoutV.getChildren().addAll(label, layoutH);
         layoutV.setAlignment(Pos.CENTER);
         layoutH.setAlignment(Pos.CENTER);
-
         Scene scene = new Scene(layoutV);
 
         setWindowSettings(window,scene,title);
@@ -89,7 +87,6 @@ public class BoxAlert{
         layoutH.getChildren().add(closeButton);
         layoutV.setAlignment(Pos.CENTER);
         layoutH.setAlignment(Pos.CENTER);
-
         Scene scene = new Scene(layoutV);
 
         setWindowSettings(window,scene,title);
@@ -109,11 +106,11 @@ public class BoxAlert{
             Label centerLabel = new Label(Integer.toString(highScores.get(i).getScore()));
             Label rightLabel = new Label(Integer.toString(highScores.get(i).getRound()));
             controller.mainGridPane.add(leftLabel, 0, i+1);
-            controller.mainGridPane.setHalignment(leftLabel, HPos.CENTER);
+            GridPane.setHalignment(leftLabel, HPos.CENTER);
             controller.mainGridPane.add(centerLabel,1,i+1);
-            controller.mainGridPane.setHalignment(centerLabel, HPos.CENTER);
+            GridPane.setHalignment(centerLabel, HPos.CENTER);
             controller.mainGridPane.add(rightLabel,2,i+1);
-            controller.mainGridPane.setHalignment(rightLabel, HPos.CENTER);
+            GridPane.setHalignment(rightLabel, HPos.CENTER);
         }
 
         Scene scene = new Scene(root, 300, 490);
