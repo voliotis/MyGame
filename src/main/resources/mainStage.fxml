@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.voliotis.game.Controller">
+    <center>
+        <GridPane fx:id="maimGridPane" alignment="CENTER" gridLinesVisible="true" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <BorderPane.margin>
+                <Insets bottom="5.0" left="20.0" right="20.0" top="20.0" />
+            </BorderPane.margin>
+            <children>
+                <ImageView fitHeight="40.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+            </children>
+        </GridPane>
+    </center>
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="newGame" mnemonicParsing="false" onAction="#clickMenuItemNewGame" text="New game..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="load" mnemonicParsing="false" onAction="#clickMenuItemLoad" text="Load" />
+                        <MenuItem fx:id="save" mnemonicParsing="false" onAction="#clickMenuItemSave" text="Save" />
+                        <MenuItem fx:id="saveAs" mnemonicParsing="false" onAction="#clickMenuItemSaveAs" text="Save As..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#clickMenuItemQuit" text="Quit" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox prefHeight="325.0" prefWidth="93.0" BorderPane.alignment="CENTER">
+            <children>
+                <GridPane fx:id="nextBallGridPane" gridLinesVisible="true" prefHeight="149.0" prefWidth="79.0">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
+                    </children>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+               <padding>
+                  <Insets right="25.0" />
+               </padding>
+                </GridPane>
+                <Label fx:id="score" prefHeight="45.0" prefWidth="71.0" text="Score: ">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+                </Label>
+                <Label fx:id="round" layoutX="10.0" layoutY="159.0" prefHeight="45.0" prefWidth="99.0" text="Round: ">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="5.0" left="20.0" top="20.0" />
+            </BorderPane.margin>
+        </VBox>
+    </left>
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
+            </BorderPane.margin>
+        </HBox>
+    </bottom>
+</BorderPane>
