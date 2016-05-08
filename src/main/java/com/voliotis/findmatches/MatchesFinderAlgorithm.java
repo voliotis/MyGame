@@ -6,7 +6,7 @@ import com.voliotis.game.Position;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FindMatches {
+public class MatchesFinderAlgorithm {
     private GameField gameField;
     private final Position mainPosition;
     private final int numberOfRowColors;
@@ -14,7 +14,7 @@ public class FindMatches {
     private Set<Position> positionsWithColorForRemove;
     private Set<Color> bombColorsForRemove;
 
-    public FindMatches(Position position, GameField gameField, int numberOfRowColors) {
+    public MatchesFinderAlgorithm(Position position, GameField gameField, int numberOfRowColors) {
         this.mainPosition = position;
         this.gameField = gameField;
         this.numberOfRowColors = numberOfRowColors;
@@ -45,19 +45,19 @@ public class FindMatches {
 
         for (Position position : positions) {
             positionsAccess.add(position);
-            Position nextPosition = position.getRightPosition(access);
+            Position nextPosition = position.getNextPosition(access);
             while (nextPosition != null && isPositionsMeetTheConditions(position,nextPosition)) {
                 positionsAccess.add(nextPosition);
                 if (getColor(nextPosition) == Color.BOMB)
                     bombColor.add(getColor(position));
-                nextPosition = nextPosition.getRightPosition(access);
+                nextPosition = nextPosition.getNextPosition(access);
             }
-            nextPosition = position.getLeftPosition(access);
+            nextPosition = position.getPreviousPosition(access);
             while (nextPosition != null && isPositionsMeetTheConditions(position,nextPosition)) {
                 positionsAccess.add(nextPosition);
                 if (getColor(nextPosition) == Color.BOMB)
                     bombColor.add(getColor(position));
-                nextPosition = nextPosition.getLeftPosition(access);
+                nextPosition = nextPosition.getPreviousPosition(access);
             }
             setScore(access,positionsAccess,bombColor);
             positionsAccess.clear();
@@ -67,21 +67,21 @@ public class FindMatches {
 
     private Set<Position> getMainPositionNeighbours(Position.Access access){
         Set<Position> neighbours = new HashSet<>();
-        Position nextPosition = mainPosition.getRightPosition(access);
+        Position nextPosition = mainPosition.getNextPosition(access);
         while(nextPosition != null && !isEmptyPosition(nextPosition)) {
             if(getColor(nextPosition).hasRegularColor()) {
                 neighbours.add(nextPosition);
                 break;
             }
-            nextPosition = nextPosition.getRightPosition(access);
+            nextPosition = nextPosition.getNextPosition(access);
         }
-        nextPosition = mainPosition.getLeftPosition(access);
+        nextPosition = mainPosition.getPreviousPosition(access);
         while (nextPosition != null && !isEmptyPosition(nextPosition)){
             if(getColor(nextPosition).hasRegularColor()) {
                 neighbours.add(nextPosition);
                 break;
             }
-            nextPosition = nextPosition.getLeftPosition(access);
+            nextPosition = nextPosition.getPreviousPosition(access);
         }
         return neighbours;
     }

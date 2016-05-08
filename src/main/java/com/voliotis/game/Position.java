@@ -20,18 +20,18 @@ public class Position {
         return y;
     }
 
-    public Position getRightPosition(Access access){
-        int rightX = getRightX(access);
-        int rightY  = getRightY(access);
+    public Position getNextPosition(Access access){
+        int rightX = getNextX(access);
+        int rightY  = getNextY(access);
         if(isItWithinTheLimit(rightX,rightY))
             return new Position(rightX,rightY);
         else
             return null;
     }
 
-    public Position getLeftPosition(Access access){
-        int leftX = getLeftX(access);
-        int leftY  = getLeftY(access);
+    public Position getPreviousPosition(Access access){
+        int leftX = getPreviousX(access);
+        int leftY  = getPreviousY(access);
         if(isItWithinTheLimit(leftX,leftY))
             return new Position(leftX,leftY);
         else
@@ -42,7 +42,7 @@ public class Position {
         return x >= 0 && x < GameField.SIZE && y >= 0 && y < GameField.SIZE;
     }
 
-    private int getRightX(Access access){
+    private int getNextX(Access access){
         if (access == Access.ROW)
             return this.x;
         else if (access == Access.COLUMN || access == Access.CROSS_A)
@@ -51,7 +51,7 @@ public class Position {
             return this.x - 1;
     }
 
-    private int getRightY(Access access){
+    private int getNextY(Access access){
         if (access == Access.ROW)
             return this.y + 1;
         else if (access == Access.COLUMN)
@@ -60,7 +60,7 @@ public class Position {
             return this.y - 1;
     }
 
-    private int getLeftX(Access access){
+    private int getPreviousX(Access access){
         if (access == Access.ROW)
             return this.x;
         else if (access == Access.COLUMN || access == Access.CROSS_A)
@@ -69,7 +69,7 @@ public class Position {
             return this.x + 1;
     }
 
-    private int getLeftY(Access access){
+    private int getPreviousY(Access access){
         if (access == Access.ROW)
             return this.y - 1;
         else if (access == Access.COLUMN)
