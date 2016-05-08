@@ -6,7 +6,7 @@ import com.voliotis.game.Position;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MatchesFinderAlgorithm {
+public class MatchesFinderGameField {
     private GameField gameField;
     private final Position mainPosition;
     private final int numberOfRowColors;
@@ -14,7 +14,7 @@ public class MatchesFinderAlgorithm {
     private Set<Position> positionsWithColorForRemove;
     private Set<Color> bombColorsForRemove;
 
-    public MatchesFinderAlgorithm(Position position, GameField gameField, int numberOfRowColors) {
+    public MatchesFinderGameField(Position position, GameField gameField, int numberOfRowColors) {
         this.mainPosition = position;
         this.gameField = gameField;
         this.numberOfRowColors = numberOfRowColors;

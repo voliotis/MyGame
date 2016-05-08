@@ -86,9 +86,7 @@ public class GameField {
             if(c == color)
                 positions.add(p);
         });
-        positions.forEach(p -> {
-            removeAndGetColorFromPosition(p);
-        });
+        positions.forEach(this::removeAndGetColorFromPosition);
     }
 
     public Map<Position, Color> getMap() {
