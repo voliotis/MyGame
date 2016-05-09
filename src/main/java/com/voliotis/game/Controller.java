@@ -4,7 +4,6 @@ import com.voliotis.fileutils.ChooseFile;
 import com.voliotis.fileutils.SLFile;
 import com.voliotis.fileutils.SaveGame;
 import javafx.scene.control.Label;
-import javafx.scene.image.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.io.File;
@@ -15,10 +14,17 @@ public class Controller {
     public Label score, round;
 
     private Stage window;
-    private GameImageViews imageV;
     private Game game;
     private boolean isTheGameSaved = false;
     private File saveGameFile;
+
+    public void setWindow(Stage window) {
+        this.window = window;
+    }
+
+    public Game getGame() {
+        return game;
+    }
 
     public void clickMenuItemNewGame() {
         if(game != null && !isTheGameSaved) {
@@ -81,36 +87,21 @@ public class Controller {
             window.close();
     }
 
-    public void setWindow(Stage window) {
-        this.window = window;
-    }
-
     private void newGame(){
         game = new Game();
         game.startGame();
-        imageV = new GameImageViews(game,maimGridPane,nextBallGridPane,score,round);
-        settingsForStart();
+        GamePane gamePane = new GamePane(this);
+        gamePane.refreshPanel();
     }
 
     private void continueGame(){
         SaveGame load = SLFile.loadGameFromFile(saveGameFile);
         game = new Game();
         game.continueGame(load);
-        settingsForStart();
-    }
+        GamePane gamePane = new GamePane(this);
+        gamePane.refreshPanel();    }
 
-    private void settingsForStart(){
-        ImageView selectedImageView = new ImageView();
-        selectedImageView.setImage(ImageOfBall.getNullImage());
-        imageV.setSelectedImageView(selectedImageView);
-        imageV.setFrom(null);
-        imageV.setTo(null);
-        imageV.setImageViewToNextBallGridPane();
-        imageV.setImageViewAndInteractionToMainGridPane();
-        imageV.setLabels();
-    }
-
-    public boolean saveGame(Options.SOrSAs saveOrSaveAs){
+    private boolean saveGame(Options.SOrSAs saveOrSaveAs){
         SaveGame save = game.saveGame();
         File newFile = SLFile.saveGameToFile(save, saveGameFile, window, saveOrSaveAs);
         if (newFile != null) {

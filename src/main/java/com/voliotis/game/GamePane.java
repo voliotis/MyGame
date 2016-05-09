@@ -2,46 +2,37 @@ package com.voliotis.game;
 
 import com.voliotis.boxs.BoxAlert;
 import javafx.geometry.HPos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
 
-public class GameImageViews {
-    private GridPane maimGridPane;
-    private GridPane nextBallGridPane;
-    private Label score;
-    private Label round;
+public class GamePane {
+    private static final int FIT = 42;
+    private Controller controller;
     private ImageView[][] imageViews;
     private ImageView [] imageViewsNextBall;
-    private static final int FIT = 42;
-    private Game game;
     private Position from;
     private Position to;
     private ImageView selectedImageView;
 
-    public GameImageViews(Game game, GridPane maimGridPane, GridPane nextBallGridPane, Label score, Label round){
+    public GamePane(Controller controller){
+        this.controller = controller;
         imageViews = new ImageView [9][9];
         imageViewsNextBall = new ImageView[3];
-        this.game = game;
-        this.maimGridPane = maimGridPane;
-        this.nextBallGridPane = nextBallGridPane;
-        this.score = score;
-        this.round = round;
     }
 
     public void setImageViewToNextBallGridPane(){
-        clearNextBallGridPane(nextBallGridPane);
-        List<Color> newBallsColor = game.getNextBallsColor();
+        clearNextBallGridPane(controller.nextBallGridPane);
+        List<Color> newBallsColor = controller.getGame().getNextBallsColor();
         for (int i = 0; i < newBallsColor.size(); i++){
             imageViewsNextBall[i] =  new ImageView();
             imageViewsNextBall[i].setImage(ImageOfBall.getImage(newBallsColor.get(i), Options.ImageType.IMAGE_TYPE_A));
             imageViewsNextBall[i].setFitHeight(FIT);
             imageViewsNextBall[i].setFitWidth(FIT);
             GridPane.setHalignment(imageViewsNextBall[i], HPos.CENTER);
-            nextBallGridPane.add(imageViewsNextBall[i], 0, i);
+            controller.nextBallGridPane.add(imageViewsNextBall[i], 0, i);
         }
     }
 
@@ -52,19 +43,19 @@ public class GameImageViews {
 
     public void setImageViewAndInteractionToMainGridPane(){
         clearMainGridPane();
-        List<Position> ballPositions = game.getBallsPositions();
-        List<Position> emptyPositions = game.getEmptyPositions();
+        List<Position> ballPositions = controller.getGame().getBallsPositions();
+        List<Position> emptyPositions = controller.getGame().getEmptyPositions();
         ballPositions.forEach(p -> {
-            Color color = game.getBallsColorFrom(p);
+            Color color = controller.getGame().getBallsColorFrom(p);
             Image imageOfBall = ImageOfBall.getImage(color, Options.ImageType.IMAGE_TYPE_A);
             setImageViews(imageOfBall, p);
-            maimGridPane.add(imageViews[p.getX()][p.getY()], p.getY(), p.getX());
+            controller.maimGridPane.add(imageViews[p.getX()][p.getY()], p.getY(), p.getX());
             mouseClickedOnABall(p);
         });
         emptyPositions.forEach(p -> {
             Image imageOfBall = ImageOfBall.getNullImage();
             setImageViews(imageOfBall, p);
-            maimGridPane.add(imageViews[p.getX()][p.getY()], p.getY(), p.getX());
+            controller.maimGridPane.add(imageViews[p.getX()][p.getY()], p.getY(), p.getX());
             mouseEnteredOnPositionWithoutBall(p);
             mouseExitedOnPositionWithoutBall(p);
             mouseClickedOnPositionWithoutBall(p);
@@ -76,24 +67,24 @@ public class GameImageViews {
         int y = position.getY();
         imageViews[x][y] =  new ImageView();
         imageViews[x][y].setImage(imageOfBall);
-        imageViews[x][y].setFitHeight(42);
-        imageViews[x][y].setFitWidth(42);
+        imageViews[x][y].setFitHeight(FIT);
+        imageViews[x][y].setFitWidth(FIT);
         GridPane.setHalignment(imageViews[x][y], HPos.CENTER);
     }
 
     private void clearMainGridPane(){
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
-                maimGridPane.getChildren().remove(imageViews[i][j]);
+                controller.maimGridPane.getChildren().remove(imageViews[i][j]);
     }
 
     private void mouseClickedOnABall(Position position){
         int x = position.getX();
         int y = position.getY();
-        Color colorFromPosition = game.getBallsColorFrom(position);
+        Color colorFromPosition = controller.getGame().getBallsColorFrom(position);
         imageViews[x][y].setOnMouseClicked(e -> {
             if (from != null) {
-                Color color = game.getBallsColorFrom(from);
+                Color color = controller.getGame().getBallsColorFrom(from);
                 imageViews[from.getX()][from.getY()].setImage(ImageOfBall.getImage(color, Options.ImageType.IMAGE_TYPE_A));
             }
             imageViews[x][y].setImage(ImageOfBall.getImage(colorFromPosition, Options.ImageType.IMAGE_TYPE_B));
@@ -110,12 +101,12 @@ public class GameImageViews {
                 if (!(selectedImageView.getImage().equals(ImageOfBall.getNullImage()))) {
                     imageView.setImage(selectedImageView.getImage());
                     selectedImageView.setImage(ImageOfBall.getNullImage());
-                    if(!game.moveAndCheckGameOver(from, to)) {
+                    if(!controller.getGame().moveAndCheckGameOver(from, to)) {
                         refreshPanel();
                     }
                     else {
                         refreshPanel();
-                        BoxAlert.displayGameOver("Game Over!!!", game.getRound(), game.getScore());
+                        BoxAlert.displayGameOver("Game Over!!!", controller.getGame().getRound(), controller.getGame().getScore());
                     }
                 }
             }
@@ -126,7 +117,7 @@ public class GameImageViews {
         imageViews[position.getX()][position.getY()].setOnMouseEntered(e -> {
             to = new Position(position.getX(), position.getY());
             if (isMovePermissible(position)) {
-                game.getLastCheckedWalkablePath().forEach(p -> imageViews[p.getX()][p.getY()].setImage(ImageOfBall.getNullImage2()));
+                controller.getGame().getLastCheckedWalkablePath().forEach(p -> imageViews[p.getX()][p.getY()].setImage(ImageOfBall.getNullImage2()));
             }
         });
     }
@@ -134,37 +125,25 @@ public class GameImageViews {
     private void mouseExitedOnPositionWithoutBall(Position position){
         imageViews[position.getX()][position.getY()].setOnMouseExited(e -> {
             if (isMovePermissible(position)) {
-                game.getLastCheckedWalkablePath().forEach(p -> imageViews[p.getX()][p.getY()].setImage(ImageOfBall.getNullImage()));
+                controller.getGame().getLastCheckedWalkablePath().forEach(p -> imageViews[p.getX()][p.getY()].setImage(ImageOfBall.getNullImage()));
             }
         });
     }
 
     private boolean isMovePermissible(Position position){
-        return from != null && game.isWalkablePath(from,position);
+        return from != null && controller.getGame().isWalkablePath(from, position);
     }
 
-    private void refreshPanel(){
+    public void refreshPanel(){
         to = null;
         from = null;
-        setLabels();
         setImageViewToNextBallGridPane();
         setImageViewAndInteractionToMainGridPane();
+        setLabels();
     }
 
     public void setLabels(){
-        score.setText("Score: " + game.getScore());
-        round.setText("Round: " + game.getRound());
-    }
-
-    public void setTo(Position to) {
-        this.to = to;
-    }
-
-    public void setFrom(Position from) {
-        this.from = from;
-    }
-
-    public void setSelectedImageView(ImageView selectedImageView) {
-        this.selectedImageView = selectedImageView;
+        controller.score.setText("Score: " + controller.getGame().getScore());
+        controller.round.setText("Round: " + controller.getGame().getRound());
     }
 }
